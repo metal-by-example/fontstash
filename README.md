@@ -1,11 +1,15 @@
-*This project is not actively maintained.*
+*This project has been substantially modified from the original project
+to remove dependence on GLFW and OpenGL. This fork is specific to Metal
+on Apple platforms and is not intended as a drop-in replacement for the
+GL backend of the original project. The sample backend is provided merely
+for illustrative purposes and should not be used in production code.*
 
 Font Stash
 ==========
 
-Font stash is light-weight online font texture atlas builder written in C. It uses [stb_truetype](http://nothings.org) to render fonts on demand to a texture atlas.
+Font stash is a lightweight online font texture atlas builder written in C. It uses [stb_truetype](http://nothings.org) to render fonts on demand to a texture atlas.
 
-The code is split in two parts, the font atlas and glyph quad generator [fontstash.h](/src/fontstash.h), and an example OpenGL backend ([glstash.h](/glstash.h).
+The code is split in two parts: the font atlas and glyph quad generator [fontstash.h](/src/fontstash.h), and an example Metal backend [mtlfontstash.h](/src/mtlfontstash.h).
 
 ## Screenshot
 
@@ -13,8 +17,8 @@ The code is split in two parts, the font atlas and glyph quad generator [fontsta
 
 ## Example
 ``` C
-// Create GL stash for 512x512 texture, our coordinate system has zero at top-left.
-struct FONScontext* fs = glfonsCreate(512, 512, FONS_ZERO_TOPLEFT);
+// Create Metal stash for 512x512 texture; our coordinate system has zero at top-left.
+struct FONScontext* fs = mtlfonsCreate(device, 512, 512, FONS_ZERO_TOPLEFT);
 
 // Add font to stash.
 int fontNormal = fonsAddFont(fs, "sans", "DroidSerif-Regular.ttf");
@@ -36,7 +40,7 @@ fonsDrawText(fs, dx,dy,"brown fox", NULL);
 
 ## Using Font Stash in your project
 
-In order to use fontstash in your own project, just copy fontstash.h, stb_truetype.h, and potentially glstash.h to your project.
+In order to use fontstash in your own project, just copy fontstash.h, stb_truetype.h, and potentially mtlfontstash.h to your project.
 In one C/C++ define FONTSTASH_IMPLEMENTATION before including the library to expand the font stash implementation in that file.
 
 ``` C
@@ -47,14 +51,13 @@ In one C/C++ define FONTSTASH_IMPLEMENTATION before including the library to exp
 ```
 
 ``` C
-#include <GLFW/glfw3.h>				// Or any other GL header of your choice.
-#define GLFONTSTASH_IMPLEMENTATION	// Expands implementation
-#include "glfontstash.h"
+#define MTLFONTSTASH_IMPLEMENTATION	// Expands implementation
+#include "mtlfontstash.h"
 ```
 
 ## Creating new rendering backend
 
-The default rendering backend uses OpenGL to render the glyphs. If you want to render the text using some other API, or want tighter integration with your code base you can write your own rendering backend. Take a look at the [glfontstash.h](/src/glfontstash.h) for reference implementation.
+The default rendering backend uses Metal to render the glyphs. If you want to render the text using some other API, or want tighter integration with your code base you can write your own rendering backend. Take a look at the [mtlfontstash.h](/src/mtlfontstash.h) for reference implementation.
 
 The rendering interface FontStash assumes access to is defined in the FONSparams structure. The renderer initialization function is assumed to fill in the FONSparams structure and call fonsCreateInternal to create the FontStash context.
 
@@ -101,7 +104,7 @@ fonsDrawText() {
 }
 ```
 
-The size of the internal buffer is defined using `FONS_VERTEX_COUNT` define. The default value is 1024, you can override it when you include fontstash.h and specify the implementation:
+The size of the internal buffer is defined using `FONS_VERTEX_COUNT` define. The default value is 1024; you can override it when you include fontstash.h and specify the implementation:
 
 ``` C
 #define FONS_VERTEX_COUNT 2048
@@ -111,22 +114,7 @@ The size of the internal buffer is defined using `FONS_VERTEX_COUNT` define. The
 
 ## Compiling
 
-In order to compile the demo project, your will need to install [GLFW](http://www.glfw.org/) to compile.
-
-FontStash example project uses [premake4](http://industriousone.com/premake) to build platform specific projects, now is good time to install it if you don't have it already. To build the example, navigate into the root folder in your favorite terminal, then:
-
-- *OS X*: `premake4 xcode4`
-- *Windows*: `premake4 vs2010`
-- *Linux*: `premake4 gmake`
-
-See premake4 documentation for full list of supported build file types. The projects will be created in `build` folder. An example of building and running the example on OS X:
-
-```bash
-$ premake4 gmake
-$ cd build/
-$ make
-$ ./example
-```
+Open the included Xcode project and run the FontstashMTL target.
 
 # License
 The library is licensed under [zlib license](LICENSE.txt)

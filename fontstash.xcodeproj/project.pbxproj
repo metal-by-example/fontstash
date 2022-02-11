@@ -1,0 +1,367 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		83810AD227B61DDB007C842F /* DroidSerif-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83810ACC27B61DDB007C842F /* DroidSerif-Bold.ttf */; };
+		83810AD327B61DDB007C842F /* DroidSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83810ACD27B61DDB007C842F /* DroidSerif-Regular.ttf */; };
+		83810AD527B61DDB007C842F /* DroidSansJapanese.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83810ACF27B61DDB007C842F /* DroidSansJapanese.ttf */; };
+		83810AD627B61DDB007C842F /* DroidSerif-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83810AD027B61DDB007C842F /* DroidSerif-Italic.ttf */; };
+		83D2ADB727B61CB00008C2B9 /* app.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D2ADB627B61CB00008C2B9 /* app.m */; };
+		83D2ADBF27B61CB10008C2B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83D2ADBD27B61CB10008C2B9 /* Main.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		83810ACC27B61DDB007C842F /* DroidSerif-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DroidSerif-Bold.ttf"; sourceTree = "<group>"; };
+		83810ACD27B61DDB007C842F /* DroidSerif-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DroidSerif-Regular.ttf"; sourceTree = "<group>"; };
+		83810ACF27B61DDB007C842F /* DroidSansJapanese.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansJapanese.ttf; sourceTree = "<group>"; };
+		83810AD027B61DDB007C842F /* DroidSerif-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DroidSerif-Italic.ttf"; sourceTree = "<group>"; };
+		83810AD827B62339007C842F /* fontstash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fontstash.h; path = src/fontstash.h; sourceTree = "<group>"; };
+		83810AD927B62339007C842F /* mtlfontstash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mtlfontstash.h; path = src/mtlfontstash.h; sourceTree = "<group>"; };
+		83810ADA27B62339007C842F /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = src/stb_truetype.h; sourceTree = "<group>"; };
+		83810ADB27B633E3007C842F /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		83810ADC27B633E3007C842F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		83D2ADB227B61CB00008C2B9 /* fontstash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fontstash.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		83D2ADB527B61CB00008C2B9 /* app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = app.h; sourceTree = "<group>"; };
+		83D2ADB627B61CB00008C2B9 /* app.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = app.m; sourceTree = "<group>"; };
+		83D2ADBE27B61CB10008C2B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		83D2ADAF27B61CB00008C2B9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		83810AD727B6230C007C842F /* src */ = {
+			isa = PBXGroup;
+			children = (
+				83810AD827B62339007C842F /* fontstash.h */,
+				83810AD927B62339007C842F /* mtlfontstash.h */,
+				83810ADA27B62339007C842F /* stb_truetype.h */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		83D2ADA927B61CB00008C2B9 = {
+			isa = PBXGroup;
+			children = (
+				83810ADB27B633E3007C842F /* LICENSE.txt */,
+				83810ADC27B633E3007C842F /* README.md */,
+				83810AD727B6230C007C842F /* src */,
+				83D2ADB427B61CB00008C2B9 /* sample */,
+				83D2ADB327B61CB00008C2B9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		83D2ADB327B61CB00008C2B9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				83D2ADB227B61CB00008C2B9 /* fontstash.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		83D2ADB427B61CB00008C2B9 /* sample */ = {
+			isa = PBXGroup;
+			children = (
+				83810ACF27B61DDB007C842F /* DroidSansJapanese.ttf */,
+				83810ACC27B61DDB007C842F /* DroidSerif-Bold.ttf */,
+				83810AD027B61DDB007C842F /* DroidSerif-Italic.ttf */,
+				83810ACD27B61DDB007C842F /* DroidSerif-Regular.ttf */,
+				83D2ADB527B61CB00008C2B9 /* app.h */,
+				83D2ADB627B61CB00008C2B9 /* app.m */,
+				83D2ADBD27B61CB10008C2B9 /* Main.storyboard */,
+			);
+			path = sample;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		83D2ADB127B61CB00008C2B9 /* fontstash */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 83D2ADC527B61CB10008C2B9 /* Build configuration list for PBXNativeTarget "fontstash" */;
+			buildPhases = (
+				83D2ADAE27B61CB00008C2B9 /* Sources */,
+				83D2ADAF27B61CB00008C2B9 /* Frameworks */,
+				83D2ADB027B61CB00008C2B9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = fontstash;
+			productName = FontstashMTL;
+			productReference = 83D2ADB227B61CB00008C2B9 /* fontstash.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		83D2ADAA27B61CB00008C2B9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1320;
+				TargetAttributes = {
+					83D2ADB127B61CB00008C2B9 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 83D2ADAD27B61CB00008C2B9 /* Build configuration list for PBXProject "fontstash" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 83D2ADA927B61CB00008C2B9;
+			productRefGroup = 83D2ADB327B61CB00008C2B9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				83D2ADB127B61CB00008C2B9 /* fontstash */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		83D2ADB027B61CB00008C2B9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83810AD227B61DDB007C842F /* DroidSerif-Bold.ttf in Resources */,
+				83D2ADBF27B61CB10008C2B9 /* Main.storyboard in Resources */,
+				83810AD327B61DDB007C842F /* DroidSerif-Regular.ttf in Resources */,
+				83810AD527B61DDB007C842F /* DroidSansJapanese.ttf in Resources */,
+				83810AD627B61DDB007C842F /* DroidSerif-Italic.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		83D2ADAE27B61CB00008C2B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83D2ADB727B61CB00008C2B9 /* app.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		83D2ADBD27B61CB10008C2B9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83D2ADBE27B61CB10008C2B9 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		83D2ADC327B61CB10008C2B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		83D2ADC427B61CB10008C2B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		83D2ADC627B61CB10008C2B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_COMMA = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G784MNW7L7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.metalbyexample.FontstashMTL;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		83D2ADC727B61CB10008C2B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_COMMA = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G784MNW7L7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.metalbyexample.FontstashMTL;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		83D2ADAD27B61CB00008C2B9 /* Build configuration list for PBXProject "fontstash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83D2ADC327B61CB10008C2B9 /* Debug */,
+				83D2ADC427B61CB10008C2B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		83D2ADC527B61CB10008C2B9 /* Build configuration list for PBXNativeTarget "fontstash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83D2ADC627B61CB10008C2B9 /* Debug */,
+				83D2ADC727B61CB10008C2B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 83D2ADAA27B61CB00008C2B9 /* Project object */;
+}

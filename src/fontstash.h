@@ -155,6 +155,8 @@ FONS_DEF void fonsDrawDebug(FONScontext* s, float x, float y);
 
 #define FONS_NOTUSED(v)  (void)sizeof(v)
 
+#include <stdlib.h>
+
 #ifdef FONS_USE_FREETYPE
 
 #include <ft2build.h>
@@ -919,14 +921,14 @@ static FILE* fons__fopen(const char* filename, const char* mode)
 int fonsAddFont(FONScontext* stash, const char* name, const char* path)
 {
 	FILE* fp = 0;
-	int dataSize = 0, readed;
+	unsigned long dataSize = 0, readed;
 	unsigned char* data = NULL;
 
 	// Read in the font data.
 	fp = fons__fopen(path, "rb");
 	if (fp == NULL) goto error;
 	fseek(fp,0,SEEK_END);
-	dataSize = (int)ftell(fp);
+	dataSize = ftell(fp);
 	fseek(fp,0,SEEK_SET);
 	data = (unsigned char*)malloc(dataSize);
 	if (data == NULL) goto error;
@@ -935,7 +937,7 @@ int fonsAddFont(FONScontext* stash, const char* name, const char* path)
 	fp = 0;
 	if (readed != dataSize) goto error;
 
-	return fonsAddFontMem(stash, name, data, dataSize, 1);
+	return fonsAddFontMem(stash, name, data, (int)dataSize, 1);
 
 error:
 	if (data) free(data);
