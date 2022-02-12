@@ -7,17 +7,17 @@ for illustrative purposes and should not be used in production code.*
 Font Stash
 ==========
 
-Font stash is a lightweight online font texture atlas builder written in C. It uses [stb_truetype](http://nothings.org) to render fonts on demand to a texture atlas.
+Font Stash is a lightweight online font texture atlas builder written in C. It uses [stb_truetype](http://nothings.org) to render fonts on-demand to a texture atlas.
 
-The code is split in two parts: the font atlas and glyph quad generator [fontstash.h](/src/fontstash.h), and an example Metal backend [mtlfontstash.h](/src/mtlfontstash.h).
+The code is split into two parts: the font atlas and glyph quad generator [fontstash.h](/src/fontstash.h), and an example Metal backend [mtlfontstash.h](/src/mtlfontstash.h).
 
 ## Screenshot
 
-![screenshot of some text rendered witht the sample program](/screenshots/screen-01.png?raw=true)
+![screenshot of some text rendered with the sample program](/screenshots/screen-01.png?raw=true)
 
 ## Example
 ``` C
-// Create Metal stash for 512x512 texture; our coordinate system has zero at top-left.
+// Create a Metal stash for 512x512 texture; our coordinate system has a top-left origin.
 struct FONScontext* fs = mtlfonsCreate(device, 512, 512, FONS_ZERO_TOPLEFT);
 
 // Add font to stash.
@@ -25,8 +25,8 @@ int fontNormal = fonsAddFont(fs, "sans", "DroidSerif-Regular.ttf");
 
 // Render some text
 float dx = 10, dy = 10;
-unsigned int white = glfonsRGBA(255,255,255,255);
-unsigned int brown = glfonsRGBA(192,128,0,128);
+unsigned int white = mtlfonsRGBA(255,255,255,255);
+unsigned int brown = mtlfonsRGBA(192,128,0,128);
 
 fonsSetFont(fs, fontNormal);
 fonsSetSize(fs, 124.0f);
@@ -41,7 +41,7 @@ fonsDrawText(fs, dx,dy,"brown fox", NULL);
 ## Using Font Stash in your project
 
 In order to use fontstash in your own project, just copy fontstash.h, stb_truetype.h, and potentially mtlfontstash.h to your project.
-In one C/C++ define FONTSTASH_IMPLEMENTATION before including the library to expand the font stash implementation in that file.
+In one C/C++ file, define FONTSTASH_IMPLEMENTATION before including the library to expand the font stash implementation in that file.
 
 ``` C
 #include <stdio.h>					// malloc, free, fopen, fclose, ftell, fseek, fread
@@ -55,11 +55,11 @@ In one C/C++ define FONTSTASH_IMPLEMENTATION before including the library to exp
 #include "mtlfontstash.h"
 ```
 
-## Creating new rendering backend
+## Creating a new rendering backend
 
-The default rendering backend uses Metal to render the glyphs. If you want to render the text using some other API, or want tighter integration with your code base you can write your own rendering backend. Take a look at the [mtlfontstash.h](/src/mtlfontstash.h) for reference implementation.
+The default rendering backend uses Metal to render the glyphs. If you want to render text using some other API, or want tighter integration with your code base, you can write your own rendering backend. Take a look at [mtlfontstash.h](/src/mtlfontstash.h) for a reference implementation.
 
-The rendering interface FontStash assumes access to is defined in the FONSparams structure. The renderer initialization function is assumed to fill in the FONSparams structure and call fonsCreateInternal to create the FontStash context.
+To create a font stash object that uses your rendering backend, write a function that populates an instance of the `FONSparams` struct, then calls `fonsCreateInternal` to create the Font Stash context. The various function pointer members of the params struct point to the functions that implement your rendering backend.
 
 ```C
 struct FONSparams {

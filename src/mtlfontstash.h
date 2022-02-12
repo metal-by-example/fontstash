@@ -26,6 +26,7 @@ void mtlfonsSetRenderTargetPixelFormat(FONScontext* _Nonnull ctx, MTLPixelFormat
 void mtlfonsSetRenderCommandEncoder(FONScontext* _Nonnull ctx, id<MTLRenderCommandEncoder> _Nullable commandEncoder, MTLViewport viewport);
 void mtlfonsDelete(FONScontext* _Nonnull ctx);
 
+void mtlfonsDrawLine(FONScontext* _Nonnull stash, float x0, float y0, float x1, float y1);
 unsigned int mtlfonsRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 
 #endif
@@ -92,7 +93,7 @@ typedef struct MTLFONScontext MTLFONScontext;
 typedef struct {
     float x, y;
     float tx, ty;
-    unsigned char rgba[4];
+    unsigned int rgba;
 } MTLFONSvertex;
 
 static simd_float4x4 float4x4_ortho_projection(float left, float top, float right, float bottom, float near, float far)
@@ -298,6 +299,35 @@ void mtlfonsDelete(FONScontext* ctx)
 unsigned int mtlfonsRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
 {
     return (r) | (g << 8) | (b << 16) | (a << 24);
+}
+
+void mtlfonsDrawLine(FONScontext* _Nonnull ctx, float x0, float y0, float x1, float y1) {
+    MTLFONScontext* mtl = (MTLFONScontext *)ctx->params.userPtr;
+    if (mtl->atlasTexture == 0) {
+        return;
+    }
+
+    id<MTLRenderCommandEncoder> renderCommandEncoder = mtl->currentRenderCommandEncoder;
+
+    id<MTLRenderPipelineState> pipelineState = mtlfons__renderPipelineState(mtl);
+    [renderCommandEncoder setRenderPipelineState:pipelineState];
+
+    MTLFONSvertex vertexData[] = {
+        { .x = x0, .y = y0, .tx = 0, .ty = 0, .rgba = mtlfonsRGBA(0, 0, 0, 255) },
+        { .x = x1, .y = y1, .tx = 0, .ty = 0, .rgba = mtlfonsRGBA(0, 0, 0, 255) }
+    };
+
+    [renderCommandEncoder setVertexBytes:vertexData length:sizeof(vertexData) atIndex:0];
+
+    MTLViewport viewport = mtl->currentViewport;
+    simd_float4x4 projectionMatrix = float4x4_ortho_projection(viewport.originX, viewport.originY,
+                                                               viewport.width, viewport.height,
+                                                               0, 1);
+    [renderCommandEncoder setVertexBytes:&projectionMatrix length:sizeof(simd_float4x4) atIndex:1];
+
+    [renderCommandEncoder setFragmentTexture:mtl->atlasTexture atIndex:0];
+
+    [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeLine vertexStart:0 vertexCount:2];
 }
 
 NS_ASSUME_NONNULL_END

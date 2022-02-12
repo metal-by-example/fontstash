@@ -27,22 +27,12 @@
 #define MTLFONTSTASH_IMPLEMENTATION
 #include "mtlfontstash.h"
 
-void dash(float dx, float dy)
-{
-//    glBegin(GL_LINES);
-//    glColor4ub(0,0,0,128);
-//    glVertex2f(dx-5,dy);
-//    glVertex2f(dx-10,dy);
-//    glEnd();
+void line(FONScontext *stash, float sx, float sy, float ex, float ey) {
+    mtlfonsDrawLine(stash, sx, sy, ex, ey);
 }
 
-void line(float sx, float sy, float ex, float ey)
-{
-//    glBegin(GL_LINES);
-//    glColor4ub(0,0,0,128);
-//    glVertex2f(sx,sy);
-//    glVertex2f(ex,ey);
-//    glEnd();
+void dash(FONScontext *stash, float dx, float dy) {
+    line(stash, dx-5, dy, dx-10, dy);
 }
 
 @implementation AppDelegate
@@ -181,7 +171,7 @@ void line(float sx, float sy, float ex, float ey)
     sx = 50; sy = 50;
     dx = sx; dy = sy;
 
-    dash(dx,dy);
+    dash(fs, dx,dy);
 
     fonsClearState(fs);
 
@@ -192,7 +182,7 @@ void line(float sx, float sy, float ex, float ey)
     fonsVertMetrics(fs, NULL, NULL, &lh);
     dx = sx;
     dy += lh;
-    dash(dx,dy);
+    dash(fs, dx,dy);
 
     fonsSetSize(fs, scale * 124.0f);
     fonsSetFont(fs, fontNormal);
@@ -212,7 +202,7 @@ void line(float sx, float sy, float ex, float ey)
     fonsVertMetrics(fs, NULL, NULL, &lh);
     dx = sx;
     dy += lh*1.2f;
-    dash(dx,dy);
+    dash(fs, dx,dy);
     fonsSetFont(fs, fontItalic);
     dx = fonsDrawText(fs, dx,dy,"jumps over ",NULL);
     fonsSetFont(fs, fontBold);
@@ -222,7 +212,7 @@ void line(float sx, float sy, float ex, float ey)
 
     dx = sx;
     dy += lh*1.2f;
-    dash(dx,dy);
+    dash(fs, dx,dy);
     fonsSetSize(fs, scale * 12.0f);
     fonsSetFont(fs, fontNormal);
     fonsSetColor(fs, blue);
@@ -231,7 +221,7 @@ void line(float sx, float sy, float ex, float ey)
     fonsVertMetrics(fs, NULL,NULL,&lh);
     dx = sx;
     dy += lh*1.2f*2;
-    dash(dx,dy);
+    dash(fs, dx,dy);
     fonsSetSize(fs, scale * 18.0f);
     fonsSetFont(fs, fontItalic);
     fonsSetColor(fs, white);
@@ -240,7 +230,7 @@ void line(float sx, float sy, float ex, float ey)
     fonsVertMetrics(fs, NULL,NULL,&lh);
     dx = sx;
     dy += lh*1.2f;
-    dash(dx,dy);
+    dash(fs, dx,dy);
     fonsSetFont(fs, fontJapanese);
     fonsDrawText(fs, dx,dy,"私はガラスを食べられます。それは私を傷つけません。",NULL);
 
@@ -250,7 +240,7 @@ void line(float sx, float sy, float ex, float ey)
     fonsSetColor(fs, white);
 
     dx = scale * 50; dy = scale * 350;
-    line(dx-10,dy,dx+250,dy);
+    line(fs, dx-10,dy,dx+scale * 250,dy);
     fonsSetAlign(fs, FONS_ALIGN_LEFT | FONS_ALIGN_TOP);
     dx = fonsDrawText(fs, dx,dy,"Top",NULL);
     dx += scale * 10;
@@ -264,7 +254,7 @@ void line(float sx, float sy, float ex, float ey)
     fonsDrawText(fs, dx,dy,"Bottom",NULL);
 
     dx = scale * 150; dy = scale * 400;
-    line(dx,dy-30,dx,dy+80.0f);
+    line(fs, dx,dy-scale * 30,dx,dy+scale * 80.0f);
     fonsSetAlign(fs, FONS_ALIGN_LEFT | FONS_ALIGN_BASELINE);
     fonsDrawText(fs, dx,dy,"Left",NULL);
     dy += scale * 30;
@@ -281,8 +271,8 @@ void line(float sx, float sy, float ex, float ey)
     fonsSetSize(fs, scale * 60.0f);
     fonsSetFont(fs, fontItalic);
     fonsSetColor(fs, white);
-    fonsSetSpacing(fs, 5.0f);
-    fonsSetBlur(fs, 10.0f);
+    fonsSetSpacing(fs, scale * 5.0f);
+    fonsSetBlur(fs, scale * 10.0f);
     fonsDrawText(fs, dx,dy,"Blurry...",NULL);
 
     dy += scale * 50.0f;
@@ -291,8 +281,8 @@ void line(float sx, float sy, float ex, float ey)
     fonsSetFont(fs, fontBold);
     fonsSetColor(fs, black);
     fonsSetSpacing(fs, 0.0f);
-    fonsSetBlur(fs, 3.0f);
-    fonsDrawText(fs, dx,dy+2,"DROP THAT SHADOW",NULL);
+    fonsSetBlur(fs, scale * 3.0f);
+    fonsDrawText(fs, dx,dy+(scale * 2),"DROP THAT SHADOW",NULL);
 
     fonsSetColor(fs, white);
     fonsSetBlur(fs, 0);
