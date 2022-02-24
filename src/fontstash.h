@@ -171,7 +171,7 @@ typedef struct FONSttFontImpl FONSttFontImpl;
 
 static FT_Library ftLibrary;
 
-static int fons__tt_init()
+static int fons__tt_init(FONScontext *context)
 {
 	FT_Error ftError;
 	FONS_NOTUSED(context);
@@ -258,68 +258,165 @@ static int fons__tt_getGlyphKernAdvance(FONSttFontImpl *font, int glyph1, int gl
 
 #else
 
-#define STB_TRUETYPE_IMPLEMENTATION
-#define STBTT_STATIC
-static void* fons__tmpalloc(size_t size, void* up);
-static void fons__tmpfree(void* ptr, void* up);
-#define STBTT_malloc(x,u)    fons__tmpalloc(x,u)
-#define STBTT_free(x,u)      fons__tmpfree(x,u)
-#include "stb_truetype.h"
+#import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <CoreText/CoreText.h>
+
+static const CGFloat fons__ct_reference_height = 72.0;
 
 struct FONSttFontImpl {
-	stbtt_fontinfo font;
+    CTFontRef font;
+    CFDataRef kerningTable;
 };
 typedef struct FONSttFontImpl FONSttFontImpl;
 
+static uint16_t ttUINT16(uint8_t const* p) { return p[0] * 256 + p[1]; }
+static int16_t  ttINT16 (uint8_t const* p) { return p[0] * 256 + p[1]; }
+static uint32_t ttUINT32(uint8_t const* p) { return (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3]; }
+
 static int fons__tt_init(FONScontext *context)
 {
-	FONS_NOTUSED(context);
-	return 1;
+    FONS_NOTUSED(context);
+    return 1;
 }
 
 static int fons__tt_loadFont(FONScontext *context, FONSttFontImpl *font, unsigned char *data, int dataSize)
 {
-	int stbError;
-	FONS_NOTUSED(dataSize);
+    CFDataRef fontData = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, data, dataSize, kCFAllocatorDefault);
+    CTFontDescriptorRef fontDescriptor = CTFontManagerCreateFontDescriptorFromData(fontData);
+    if (fontDescriptor == NULL) {
+        CFRelease(fontData);
+        return 0;
+    }
 
-	font->font.userdata = context;
-	stbError = stbtt_InitFont(&font->font, data, 0);
-	return stbError;
+    CTFontOptions options = kCTFontOptionsPreventAutoActivation;
+    font->font = CTFontCreateWithFontDescriptorAndOptions(fontDescriptor, fons__ct_reference_height, NULL, options);
+
+    if (font->font) {
+        font->kerningTable = CTFontCopyTable(font->font, kCTFontTableKern, kCTFontTableOptionNoOptions);
+    }
+
+    CFRelease(fontData);
+    return (font->font != nil);
 }
 
 static void fons__tt_getFontVMetrics(FONSttFontImpl *font, int *ascent, int *descent, int *lineGap)
 {
-	stbtt_GetFontVMetrics(&font->font, ascent, descent, lineGap);
+    CGFloat unitsPerEm = CTFontGetUnitsPerEm(font->font);
+    if (ascent) {
+        *ascent = round((CTFontGetAscent(font->font) / fons__ct_reference_height) * unitsPerEm);
+    }
+    if (descent) {
+        *descent = round((-CTFontGetDescent(font->font) / fons__ct_reference_height) * unitsPerEm);
+    }
+    if (lineGap) {
+        *lineGap = round((CTFontGetLeading(font->font) / fons__ct_reference_height) * unitsPerEm);
+    }
 }
 
 static float fons__tt_getPixelHeightScale(FONSttFontImpl *font, float size)
 {
-	return stbtt_ScaleForPixelHeight(&font->font, size);
+    int ascent = 0, descent = 0;
+    fons__tt_getFontVMetrics(font, &ascent, &descent, NULL);
+    int lh = ascent - descent;
+    float scale = size / lh;
+    return scale;
 }
 
 static int fons__tt_getGlyphIndex(FONSttFontImpl *font, int codepoint)
 {
-	return stbtt_FindGlyphIndex(&font->font, codepoint);
+    UniChar characters = codepoint;
+    CGGlyph glyphs = 0;
+    CTFontGetGlyphsForCharacters(font->font, &characters, &glyphs, 1);
+    return glyphs;
 }
 
 static int fons__tt_buildGlyphBitmap(FONSttFontImpl *font, int glyph, float size, float scale,
-							  int *advance, int *lsb, int *x0, int *y0, int *x1, int *y1)
+                                     int *advance, int *lsb, int *x0, int *y0, int *x1, int *y1)
 {
-	FONS_NOTUSED(size);
-	stbtt_GetGlyphHMetrics(&font->font, glyph, advance, lsb);
-	stbtt_GetGlyphBitmapBox(&font->font, glyph, scale, scale, x0, y0, x1, y1);
-	return 1;
+    CGGlyph cgGlyph = glyph;
+    CGFloat unitsPerEm = CTFontGetUnitsPerEm(font->font);
+    CGFloat unitsPerPt = (unitsPerEm / fons__ct_reference_height);
+
+    CGSize advances = CGSizeZero;
+    CTFontGetAdvancesForGlyphs(font->font, kCTFontOrientationHorizontal, &cgGlyph, &advances, 1);
+    *advance = round(advances.width * unitsPerPt);
+    *lsb = 0; // TODO: Is there any way to retrieve left-side bearing from Core Text? Does it matter?
+
+    CGRect boundingRect = CGRectZero;
+    CTFontGetBoundingRectsForGlyphs(font->font, kCTFontOrientationHorizontal, &cgGlyph, &boundingRect, 1);
+    CGAffineTransform transform = CGAffineTransformMakeScale(unitsPerPt * scale, -unitsPerPt * scale);
+    boundingRect = CGRectIntegral(CGRectApplyAffineTransform(boundingRect, transform));
+    *x0 = CGRectGetMinX(boundingRect);
+    *y0 = CGRectGetMinY(boundingRect);
+    *x1 = CGRectGetMaxX(boundingRect);
+    *y1 = CGRectGetMaxY(boundingRect);
+    return 1;
 }
 
 static void fons__tt_renderGlyphBitmap(FONSttFontImpl *font, unsigned char *output, int outWidth, int outHeight, int outStride,
-								float scaleX, float scaleY, int glyph)
+                                       float scaleX, float scaleY, int glyph)
 {
-	stbtt_MakeGlyphBitmap(&font->font, output, outWidth, outHeight, outStride, scaleX, scaleY, glyph);
+    if (outWidth <= 0 && outHeight <= 0) {
+        return;
+    }
+    CGFloat unitsPerEm = CTFontGetUnitsPerEm(font->font);
+    CGFloat unitsPerPt = (unitsPerEm / fons__ct_reference_height);
+    CGPoint glyphScale = CGPointMake(unitsPerPt * scaleX, unitsPerPt * scaleY);
+    CGGlyph cgGlyph = glyph;
+
+    CGRect boundingRect = CGRectZero;
+    CTFontGetBoundingRectsForGlyphs(font->font, kCTFontOrientationHorizontal, &cgGlyph, &boundingRect, 1);
+    CGAffineTransform glyphTransform = CGAffineTransformMakeScale(glyphScale.x, glyphScale.y);
+    boundingRect = CGRectIntegral(CGRectApplyAffineTransform(boundingRect, glyphTransform));
+
+    CGAffineTransform offsetTransform = CGAffineTransformMakeTranslation(-boundingRect.origin.x, -boundingRect.origin.y);
+    CGAffineTransform scaleTransform = CGAffineTransformMakeScale(glyphScale.x, glyphScale.y);
+    CGAffineTransform pathTransform = CGAffineTransformConcat(scaleTransform, offsetTransform);
+    CGPathRef glyphPath = CTFontCreatePathForGlyph(font->font, cgGlyph, &pathTransform);
+    if (glyphPath) {
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceLinearGray);
+        int bitmapInfo = kCGImageByteOrderDefault | kCGImageAlphaNone;
+        CGContextRef context = CGBitmapContextCreate(output, outWidth, outHeight, 8, outStride, colorSpace, bitmapInfo);
+        if (context) {
+            CGFloat color[] = { 1.0, 1.0, 1.0, 1.0 };
+            CGContextSetFillColor(context, &color[0]);
+            CGContextAddPath(context, glyphPath);
+            CGContextDrawPath(context, kCGPathFill);
+            CGContextRelease(context);
+        }
+        CFRelease(colorSpace);
+        CFRelease(glyphPath);
+    }
 }
 
 static int fons__tt_getGlyphKernAdvance(FONSttFontImpl *font, int glyph1, int glyph2)
 {
-	return stbtt_GetGlyphKernAdvance(&font->font, glyph1, glyph2);
+    if (font->kerningTable == NULL) {
+        return 0;
+    }
+    // https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6kern.html
+    UInt8 const* kern = CFDataGetBytePtr(font->kerningTable);
+    uint16_t tableCount = ttUINT16(kern + 2);
+    if (tableCount < 1) {
+        return 0; // No tables to consult
+    }
+    // Perform binary search over kerning pairs
+    int l = 0, r = ttUINT16(kern + 10) - 1;
+    uint32_t needle = glyph1 << 16 | glyph2;
+    while (l <= r) {
+        int m = (l + r) / 2;
+        uint32_t straw = ttUINT32(kern + 18 + (m * 6));
+        if (needle < straw) {
+            r = m - 1;
+        } else if (needle > straw) {
+            l = m + 1;
+        } else {
+            int adv = ttINT16(kern + 22 + (m * 6));
+            return adv;
+        }
+    }
+    return 0;
 }
 
 #endif

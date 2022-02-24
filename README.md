@@ -7,7 +7,7 @@ for illustrative purposes and should not be used in production code.*
 Font Stash
 ==========
 
-Font Stash is a lightweight online font texture atlas builder written in C. It uses [stb_truetype](http://nothings.org) to render fonts on-demand to a texture atlas.
+Font Stash is a lightweight online font texture atlas builder written in C. It uses Core Text and Core Graphics to render fonts on-demand to a texture atlas.
 
 The code is split into two parts: the font atlas and glyph quad generator [fontstash.h](/src/fontstash.h), and an example Metal backend [mtlfontstash.h](/src/mtlfontstash.h).
 
@@ -25,8 +25,8 @@ int fontNormal = fonsAddFont(fs, "sans", "DroidSerif-Regular.ttf");
 
 // Render some text
 float dx = 10, dy = 10;
-unsigned int white = mtlfonsRGBA(255,255,255,255);
-unsigned int brown = mtlfonsRGBA(192,128,0,128);
+unsigned int white = packRGBA(255,255,255,255);
+unsigned int brown = packRGBA(192,128,0,128);
 
 fonsSetFont(fs, fontNormal);
 fonsSetSize(fs, 124.0f);
@@ -40,7 +40,7 @@ fonsDrawText(fs, dx,dy,"brown fox", NULL);
 
 ## Using Font Stash in your project
 
-In order to use fontstash in your own project, just copy fontstash.h, stb_truetype.h, and potentially mtlfontstash.h to your project.
+In order to use fontstash in your own project, just copy fontstash.h and potentially mtlfontstash.h to your project.
 In one C/C++ file, define FONTSTASH_IMPLEMENTATION before including the library to expand the font stash implementation in that file.
 
 ``` C
@@ -114,10 +114,7 @@ The size of the internal buffer is defined using `FONS_VERTEX_COUNT` define. The
 
 ## Compiling
 
-Open the included Xcode project and run the FontstashMTL target.
+Open the included Xcode project and run the `fontstash` target.
 
 # License
 The library is licensed under [zlib license](LICENSE.txt)
-
-## Links
-Uses [stb_truetype](http://nothings.org) for font rendering.

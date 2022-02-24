@@ -22,7 +22,6 @@
 		83810AD027B61DDB007C842F /* DroidSerif-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DroidSerif-Italic.ttf"; sourceTree = "<group>"; };
 		83810AD827B62339007C842F /* fontstash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fontstash.h; path = src/fontstash.h; sourceTree = "<group>"; };
 		83810AD927B62339007C842F /* mtlfontstash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mtlfontstash.h; path = src/mtlfontstash.h; sourceTree = "<group>"; };
-		83810ADA27B62339007C842F /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = src/stb_truetype.h; sourceTree = "<group>"; };
 		83810ADB27B633E3007C842F /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		83810ADC27B633E3007C842F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		83D2ADB227B61CB00008C2B9 /* fontstash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fontstash.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,7 +46,6 @@
 			children = (
 				83810AD827B62339007C842F /* fontstash.h */,
 				83810AD927B62339007C842F /* mtlfontstash.h */,
-				83810ADA27B62339007C842F /* stb_truetype.h */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -307,6 +305,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.metalbyexample.FontstashMTL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -334,6 +334,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.metalbyexample.FontstashMTL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

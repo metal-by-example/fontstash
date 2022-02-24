@@ -27,8 +27,12 @@
 #define MTLFONTSTASH_IMPLEMENTATION
 #include "mtlfontstash.h"
 
+unsigned int packRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
+    return (r) | (g << 8) | (b << 16) | (a << 24);
+}
+
 void line(FONScontext *stash, float sx, float sy, float ex, float ey) {
-    mtlfonsDrawLine(stash, sx, sy, ex, ey);
+    mtlfonsDrawLine(stash, sx, sy, ex, ey, packRGBA(0, 0, 0, 255));
 }
 
 void dash(FONScontext *stash, float dx, float dy) {
@@ -91,6 +95,7 @@ void dash(FONScontext *stash, float dx, float dy) {
     fs = mtlfonsCreate(self.device, 1024, 512, FONS_ZERO_TOPLEFT);
     if (fs == NULL) {
         printf("Could not create stash.\n");
+        return;
     }
 
     chdir(NSBundle.mainBundle.resourcePath.fileSystemRepresentation);
@@ -156,16 +161,17 @@ void dash(FONScontext *stash, float dx, float dy) {
     id<MTLCommandBuffer> commandBuffer = [self.commandQueue commandBuffer];
     id<MTLRenderCommandEncoder> renderCommandEncoder = [commandBuffer renderCommandEncoderWithDescriptor:pass];
 
+    CGSize canvasSize = CGSizeMake(1600, 1150);
     CGSize drawableSize = self.metalLayer.drawableSize;
-    int width = drawableSize.width, height = drawableSize.height;
+    float aspect = drawableSize.width / drawableSize.height;
 
-    MTLViewport viewport = { .originX = 0, .originY = 0, .height = height, .width = width };
+    MTLViewport viewport = { .originX = 0, .originY = 0, .width = canvasSize.width, .height = canvasSize.width / aspect };
     mtlfonsSetRenderCommandEncoder(fs, renderCommandEncoder, viewport);
 
-    unsigned int white = mtlfonsRGBA(255,255,255,255);
-    unsigned int brown = mtlfonsRGBA(192,128,0,128);
-    unsigned int blue = mtlfonsRGBA(0,192,255,255);
-    unsigned int black = mtlfonsRGBA(0,0,0,255);
+    unsigned int white = packRGBA(255,255,255,255);
+    unsigned int brown = packRGBA(192,128,0,128);
+    unsigned int blue = packRGBA(0,192,255,255);
+    unsigned int black = packRGBA(0,0,0,255);
 
     float sx, sy, dx, dy, lh = 0;
     sx = 50; sy = 50;
