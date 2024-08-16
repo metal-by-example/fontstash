@@ -218,7 +218,7 @@ static void mtlfons__renderDraw(void* userPtr, const float* verts, const float* 
         mtl->currentVertexBufferOffset = 0;
     }
 
-    MTLFONSvertex *vertexData = (unsigned char *) mtl->vertexBuffer.contents + mtl->currentVertexBufferOffset;
+    MTLFONSvertex *vertexData = (MTLFonsvertex *) ((unsigned char *) mtl->vertexBuffer.contents + mtl->currentVertexBufferOffset);
     for (int i = 0; i < nverts; ++i) {
         memcpy(&vertexData[i].x, &verts[i * 2], sizeof(float) * 2);
         memcpy(&vertexData[i].tx, &tcoords[i * 2], sizeof(float) * 2);
